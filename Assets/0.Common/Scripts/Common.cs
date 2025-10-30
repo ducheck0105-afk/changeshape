@@ -51,5 +51,103 @@ namespace _0.Common.Scripts
             else lv = level;
             return $"Level_{lv}";
         }
+
+        #region Tween
+
+        public static Tweener TweenMoveTime(Transform trans, Vector3 to, float duration
+            , bool isLocal = true, bool isUsingUnscaleTime = false)
+        {
+            var tween = isLocal ? trans.DOLocalMove(to, duration) : trans.DOMove(to, duration);
+            return tween.SetUpdate(isUsingUnscaleTime);
+        }
+
+        public static Tweener TweenMoveTime(Transform trans, Vector3 start, Vector3 to, float duration
+            , bool isLocal = true, bool isUsingUnscaleTime = false)
+        {
+            if (isLocal)
+                trans.localPosition = start;
+            else
+                trans.position = start;
+
+            return TweenMoveTime(trans, to, duration, isLocal, isUsingUnscaleTime);
+        }
+
+        public static Tweener TweenMoveVelocity(Transform trans, Vector3 to, float velocity
+            , bool isLocal = true, bool isUsingUnscaleTime = false)
+        {
+            var duration = Vector3.Distance(isLocal ? trans.localPosition : trans.position, to) / velocity;
+            return TweenMoveTime(trans, to, duration, isLocal, isUsingUnscaleTime);
+        }
+
+        public static Tweener TweenMoveVelocity(Transform trans, Vector3 start, Vector3 to, float velocity
+            , bool isLocal = true, bool isUsingUnscaleTime = false)
+        {
+            if (isLocal)
+                trans.transform.localPosition = start;
+            else
+                trans.transform.position = start;
+
+            return TweenMoveVelocity(trans, to, velocity, isLocal, isUsingUnscaleTime);
+        }
+
+        public static Tweener TweenMoveVelocityX(Transform trans, float to, float velocity
+            , bool isLocal = true, bool isUsingUnscaleTime = false)
+        {
+            var duration = Mathf.Abs((isLocal ? trans.localPosition.x : trans.position.x) - to) / velocity;
+            var tween = isLocal ? trans.DOLocalMoveX(to, duration) : trans.DOMoveX(to, duration);
+            return tween.SetUpdate(isUsingUnscaleTime);
+        }
+        public static Tweener TweenMoveVelocityZ(Transform trans, float to, float velocity
+            , bool isLocal = true, bool isUsingUnscaleTime = false)
+        {
+            var duration = Mathf.Abs((isLocal ? trans.localPosition.x : trans.position.x) - to) / velocity;
+            var tween = isLocal ? trans.DOLocalMoveX(to, duration) : trans.DOMoveX(to, duration);
+            return tween.SetUpdate(isUsingUnscaleTime);
+        }
+        public static Tweener TweenMoveVelocityX(Transform trans, float start, float to, float velocity
+            , bool isLocal = true, bool isUsingUnscaleTime = false)
+        {
+            Vector3 currentPos;
+            if (isLocal)
+            {
+                currentPos = trans.transform.localPosition;
+                trans.transform.localPosition = new Vector3(start, currentPos.y, currentPos.z);
+            }
+            else
+            {
+                currentPos = trans.transform.position;
+                trans.transform.position = new Vector3(start, currentPos.y, currentPos.z);
+            }
+
+            return TweenMoveVelocityX(trans, to, velocity, isLocal, isUsingUnscaleTime);
+        }
+
+        public static Tweener TweenMoveVelocityY(Transform trans, float to, float velocity
+            , bool isLocal = true, bool isUsingUnscaleTime = false)
+        {
+            var duration = Mathf.Abs((isLocal ? trans.localPosition.y : trans.position.y) - to) / velocity;
+            var tween = isLocal ? trans.DOLocalMoveY(to, duration) : trans.DOMoveY(to, duration);
+            return tween.SetUpdate(isUsingUnscaleTime);
+        }
+
+        public static Tweener TweenMoveVelocityY(Transform trans, float start, float to, float velocity
+            , bool isLocal = true, bool isUsingUnscaleTime = false)
+        {
+            Vector3 currentPos;
+            if (isLocal)
+            {
+                currentPos = trans.transform.localPosition;
+                trans.transform.localPosition = new Vector3(currentPos.x, start, currentPos.z);
+            }
+            else
+            {
+                currentPos = trans.transform.position;
+                trans.transform.position = new Vector3(currentPos.x, start, currentPos.z);
+            }
+
+            return TweenMoveVelocityY(trans, to, velocity, isLocal, isUsingUnscaleTime);
+        }
+
+        #endregion
     }
 }

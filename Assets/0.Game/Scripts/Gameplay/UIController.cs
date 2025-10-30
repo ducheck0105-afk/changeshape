@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using _0.Common.Scripts;
 using _0.Common.Scripts.BaseCore;
 using TMPro;
@@ -12,18 +13,21 @@ namespace _0.Game.Scripts.Gameplay
         public static UIController instance;
         public GameObject startObj;
         public List<Sprite> icon;
+        public List<ButtonShape> buttons;
         public List<ResultUI> results;
         public TextMeshProUGUI levelText;
         private void Awake()
         {
             instance = this;
             levelText.text = $"Level {PlayerData.currentLevel + 1}";
+            
         }
 
         public void CorrectShape(int currentShape)
         {
             results[currentShape].Correct();
         }
+
         public void SetUpResult(List<GameController.ShapeType> shape)
         {
             for (int i = 0; i < results.Count; i++)
@@ -43,25 +47,18 @@ namespace _0.Game.Scripts.Gameplay
             AudioManager.instance?.PlayButtonClick();
             startObj.SetActive(false);
             GameController.instance.gameOver = false;
-        }
-        public void ChangeCircle()
-        {
-            AudioManager.instance?.PlayButtonClick();
-            GameController.instance.ChangeCircle();
+            GameController.instance.StartGroup();
         }
 
-        public void ChangeTriangle()
+        public void SetUpButton()
         {
-            AudioManager.instance?.PlayButtonClick();
-            GameController.instance.ChangeTriangle();
+            var ll = GameController.instance.shapeInWave.ToList();
+            foreach (var a in buttons)
+            {
+                a.gameObject.SetActive(ll.Contains(a.shape));
+            }
         }
-
-        public void ChangeRectangle()
-        {
-            AudioManager.instance?.PlayButtonClick();
-            GameController.instance.ChangeRectangle();
-        }
-
+        
         public void ShowGameOver(bool result)
         {
             gameOver.SetResult(result);

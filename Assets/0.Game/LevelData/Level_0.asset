@@ -12,8 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0582d5a6e9ec4fa7a1fb49684771f386, type: 3}
   m_Name: Level_0
   m_EditorClassIdentifier: 
-  walls:
-  - shapes: 02000000
-  - shapes: 02000000
-  - shapes: 0200000002000000
-  - shapes: 020000000100000002000000
+  waves:
+  - shapeInWaves:
+    - shapes: 01000000
+  - shapeInWaves:
+    - shapes: 00000000
+    - shapes: 04000000
+    - shapes: 03000000
+  - shapeInWaves:
+    - shapes: 040000000000000004000000

@@ -1,0 +1,5 @@
+D:/Unity Projects/TwistMyShape/.utmp/RelWithDebInfo/4e5e6b5t/armeabi-v7a/CMakeFiles/edit_cache.dir
+D:/Unity Projects/TwistMyShape/.utmp/RelWithDebInfo/4e5e6b5t/armeabi-v7a/CMakeFiles/rebuild_cache.dir
+D:/Unity Projects/TwistMyShape/.utmp/RelWithDebInfo/4e5e6b5t/armeabi-v7a/GameActivity/CMakeFiles/game.dir
+D:/Unity Projects/TwistMyShape/.utmp/RelWithDebInfo/4e5e6b5t/armeabi-v7a/GameActivity/CMakeFiles/edit_cache.dir
+D:/Unity Projects/TwistMyShape/.utmp/RelWithDebInfo/4e5e6b5t/armeabi-v7a/GameActivity/CMakeFiles/rebuild_cache.dir

@@ -1,0 +1,10 @@
+# ninja log v5
+212	8850	7835028961829742	GameActivity/CMakeFiles/game.dir/UGAConfiguration.cpp.o	e1713f569e759672
+490	8877	7835028962334306	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	bfa09eaf47daa550
+300	9059	7835028963307159	GameActivity/CMakeFiles/game.dir/UGAInputKeyEvent.cpp.o	682b38ba14a34434
+467	9063	7835028964633825	GameActivity/CMakeFiles/game.dir/UGAEntry.cpp.o	be924b60ec16c532
+2	10027	7835028974671560	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	1fc2cad524e32cb3
+637	10114	7835028976055370	GameActivity/CMakeFiles/game.dir/UGASoftKeyboard.cpp.o	a01b36e662055039
+389	10158	7835028976228054	GameActivity/CMakeFiles/game.dir/UGAInput.cpp.o	e451b67ef53653e2
+160	10927	7835028984356713	GameActivity/CMakeFiles/game.dir/UGAApplication.cpp.o	48eb7fd6b24a762d
+10928	11271	7835028987796682	D:/Unity Projects/TwistMyShape/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/4e5e6b5t/obj/armeabi-v7a/libgame.so	eaec81173e45559

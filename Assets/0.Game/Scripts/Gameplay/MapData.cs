@@ -9,20 +9,23 @@ namespace _0.Game.Scripts.Gameplay
     [CreateAssetMenu(fileName = "LevelData", menuName = "Game/LevelData", order = 0)]
     public class MapData : ScriptableObject
     {
-        public List<WallData> walls;
+        public List<WaveData> waves;
 
 #if UNITY_EDITOR
         [Button]
         public void RandomWall()
         {
-            foreach (var a in walls)
+            foreach (var a in waves)
             {
-                for (int i = 0; i < a.shapes.Count; i++)
+                foreach (var b in a.shapeInWaves)
                 {
-                    var random = Random.Range(0, 3);
-                    a.shapes[i] = (GameController.ShapeType)random; 
+                    for (int i = 0; i < b.shapes.Count; i++)
+                    {
+                        var random = Random.Range(0, 6);
+                        b.shapes[i] = (GameController.ShapeType)random; 
+                    }
                 }
-
+            
             }
 
             EditorUtility.SetDirty(this); 

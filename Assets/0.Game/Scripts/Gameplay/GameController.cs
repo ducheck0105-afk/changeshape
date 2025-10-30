@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using _0.Common.Scripts;
 using _0.Common.Scripts.BaseCore;
 using DG.Tweening;
@@ -11,21 +13,26 @@ namespace _0.Game.Scripts.Gameplay
     public class GameController : GameControllerBase
     {
         public static GameController instance;
-        public List<Material> colors;
         public Player player;
         public List<MapData> levelData;
-        public WallObject wallPrefabs;
-        public Transform spawnPos;
-        public List<WallObject> listWalls;
+        public Shape shapePrefabs;
+        public List<ShapeParent> spawnParent;
+        public Material yellowMat;
+        public Material orangeMat;
+        public Transform endPos;
+        public HashSet<ShapeType> shapeInWave = new HashSet<ShapeType>();
         private MapData currentLevel;
-        private int currentShape;
-        private int currentWallGroup;
+        private int currentWave;
+        private int currentGroup;
 
         public enum ShapeType
         {
             Circle,
-            Triangle,
-            Rectangle
+            Cresent,
+            Diamond,
+            Hexagon,
+            Square,
+            Star,
         }
 
         private void Awake()
@@ -36,74 +43,87 @@ namespace _0.Game.Scripts.Gameplay
         private void Start()
         {
             currentLevel = levelData[PlayerData.currentLevel];
-            StartLevel();
+            SpawnWave();
         }
 
-        private void StartLevel()
+
+        public void NextWave()
         {
-            SpawnWall();
+            StartCoroutine(NextWaveIE());
         }
 
-        private void SpawnWall()
+        private IEnumerator NextWaveIE()
         {
-            var wallObjectCount = currentLevel.walls.Count;
-            float posZ = 0;
-            for (int i = 0; i < wallObjectCount; i++)
+            currentWave += 1;
+            yield return new WaitForSeconds(1);
+            if (currentWave >= currentLevel.waves.Count)
             {
-                var obj = Instantiate(wallPrefabs);
-                var wallData = currentLevel.walls[i];
-                obj.transform.position = new Vector3(0, 0.5f, posZ);
-                obj.SetUp(wallData);
-                posZ += wallData.shapes.Count * 2.5f + 2.5f;
-                listWalls.Add(obj);
-            }
-
-            UIController.instance.SetUpResult(currentLevel.walls[0].shapes);
-            currentWallGroup = 0;
-            currentShape = 0;
-        }
-
-        public void CorrectShape()
-        {
-            UIController.instance.CorrectShape(currentShape);
-            currentShape += 1;
-            if (currentShape >= currentLevel.walls[currentWallGroup].shapes.Count)
-            {
-                currentShape = 0;
-                currentWallGroup += 1;
-                FinishWallGroup();
+                GameOver(true);
             }
             else
             {
+                SpawnWave();
+                StartGroup();
             }
         }
 
-        private void FinishWallGroup()
+        private void SpawnWave()
         {
-            if (currentWallGroup >= currentLevel.walls.Count)
+            var wave = currentLevel.waves[currentWave];
+            shapeInWave.Clear();
+            var shapeInWaves = wave.shapeInWaves;
+            for (int i = 0; i < shapeInWaves.Count; i++)
             {
-                // finish game
-                DOVirtual.DelayedCall(1, () => { GameOver(true); });
+                var shape = shapeInWaves[i];
+                var parent = spawnParent[i];
+                float posY = 0;
+                for (int j = 0; j < shape.shapes.Count; j++)
+                {
+                    var shapeType = shape.shapes[j];
+                    var obj = Instantiate(shapePrefabs, parent.transform);
+                    obj.transform.localPosition = new Vector3(0, posY, 0);
+                    obj.SetUp(shapeType, parent, j);
+                    parent.shapes.Add(obj);
+                    shapeInWave.Add(shapeType);
+                    posY -= 1;
+                }
             }
-            else
+
+            UIController.instance.SetUpResult(shapeInWaves[0].shapes);
+            UIController.instance.SetUpButton();
+            currentGroup = 0;
+        }
+
+        public void NextGroup()
+        {
+            currentGroup += 1;
+            if (currentGroup >= currentLevel.waves[currentWave].shapeInWaves.Count)
             {
-                UIController.instance.SetUpResult(currentLevel.walls[currentWallGroup].shapes);
+                NextWave();
             }
+            else StartCoroutine(NextParentIE());
         }
 
-        public void ChangeCircle()
+        public void StartGroup()
         {
-            player.ChangeCircle();
+            StartCoroutine(NextParentIE());
         }
 
-        public void ChangeTriangle()
+        private IEnumerator NextParentIE()
         {
-            player.ChangeTriangle();
+            UIController.instance.SetUpResult(currentLevel.waves[currentWave].shapeInWaves[currentGroup].shapes);
+            var group = spawnParent[currentGroup];
+            player.transform.LookAt(group.transform);
+            var rot = player.transform.rotation.eulerAngles;
+            rot.x = 0f;
+            player.transform.rotation = Quaternion.Euler(rot);
+            yield return new WaitForSeconds(1);
+            group.Move();
         }
 
-        public void ChangeRectangle()
+        public void ChangeShape(ShapeType shapeType)
         {
-            player.ChangeRectangle();
+            player.ChangeShape(shapeType);
         }
 
         public override void GameOver(bool result)

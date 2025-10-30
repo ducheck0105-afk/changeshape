@@ -10,7 +10,6 @@ namespace _0.Game.Scripts.Gameplay
 
         public void setUp(Sprite icon)
         {
-            Debug.Log("setup ");
             this.icon.sprite = icon;
             this.main.color = Color.white;
         }
@@ -18,7 +17,6 @@ namespace _0.Game.Scripts.Gameplay
 
         public void Correct()
         {
-            Debug.Log($"Correct {gameObject.name}");
             main.color = Color.green;
         }
     }
