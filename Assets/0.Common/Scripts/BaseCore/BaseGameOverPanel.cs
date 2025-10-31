@@ -14,7 +14,7 @@ namespace _0.Common.Scripts.BaseCore
 
         private void OnEnable()
         {
-            content.ShowPopup();
+            content?.ShowPopup();
         }
 
         public virtual void SetResult(bool isWin)

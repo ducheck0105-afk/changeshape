@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using _0.Common.Scripts;
 using UnityEngine;
 
 namespace _0.Game.Scripts.Gameplay
@@ -41,7 +42,7 @@ namespace _0.Game.Scripts.Gameplay
                     {
                         GameController.instance.NextGroup();
                     }
-
+                    AudioManager.instance?.PlaySfx(AudioManager.instance.ding);
                     Destroy(gameObject);
                 }
                 else

@@ -11,11 +11,16 @@ namespace _0.Game.Scripts.Gameplay
     public class UIController : BaseUIGameplay
     {
         public static UIController instance;
+        public GameSettingPanel settting;
+
         public GameObject startObj;
+        public Transform buttonGroup;
+        public Transform suggestGroup;
         public List<Sprite> icon;
         public List<ButtonShape> buttons;
         public List<ResultUI> results;
         public TextMeshProUGUI levelText;
+        public GameObject fx;
         private void Awake()
         {
             instance = this;
@@ -44,10 +49,12 @@ namespace _0.Game.Scripts.Gameplay
 
         public void TapToStart()
         {
-            AudioManager.instance?.PlayButtonClick();
+            AudioManager.instance?.PlaySfx(AudioManager.instance.start);
             startObj.SetActive(false);
             GameController.instance.gameOver = false;
             GameController.instance.StartGroup();
+            suggestGroup.gameObject.SetActive(true);
+            buttonGroup.gameObject.SetActive(true);
         }
 
         public void SetUpButton()
@@ -62,12 +69,14 @@ namespace _0.Game.Scripts.Gameplay
         public void ShowGameOver(bool result)
         {
             gameOver.SetResult(result);
+            fx.SetActive(result);
             gameOver.gameObject.SetActive(true);
         }
 
         public override void Pause()
         {
             base.Pause();
+            Time.timeScale = 0;
             settting.gameObject.SetActive(true);
         }
     }

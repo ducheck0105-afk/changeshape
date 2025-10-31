@@ -10,6 +10,7 @@ namespace _0.Game.Scripts.Gameplay
 
         public void Move()
         {
+            if(GameController.instance.gameOver)return;
             StartCoroutine(MoveIE());
         }
 
@@ -20,7 +21,7 @@ namespace _0.Game.Scripts.Gameplay
                 var obj = shapes[i];
                 obj.ReadyMove();
             }
-
+            
             yield return new WaitForSeconds(1f);
             for (int i = 0; i < shapes.Count; i++)
             {

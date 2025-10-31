@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using _0.Common.Scripts;
 using UnityEngine;
 
 namespace _0.Game.Scripts.Gameplay
@@ -8,6 +9,7 @@ namespace _0.Game.Scripts.Gameplay
     {
         public List<GameObject> shapeObject;
         public GameController.ShapeType shape;
+        public GameObject particle;
         public void ChangeShape(GameController.ShapeType shape)
         {
             for (int i = 0; i < shapeObject.Count; i++)
@@ -16,6 +18,7 @@ namespace _0.Game.Scripts.Gameplay
                 obj.gameObject.SetActive(i == (int)shape);
             }
             this.shape = shape;
+            AudioManager.instance?.PlaySfx(AudioManager.instance.pop);
         }
 
         

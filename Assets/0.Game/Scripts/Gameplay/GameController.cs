@@ -113,10 +113,15 @@ namespace _0.Game.Scripts.Gameplay
         {
             UIController.instance.SetUpResult(currentLevel.waves[currentWave].shapeInWaves[currentGroup].shapes);
             var group = spawnParent[currentGroup];
-            player.transform.LookAt(group.transform);
-            var rot = player.transform.rotation.eulerAngles;
-            rot.x = 0f;
-            player.transform.rotation = Quaternion.Euler(rot);
+            // player.transform.LookAt(group.transform);
+            // var rot = player.transform.rotation.eulerAngles;
+            // rot.x = 0f;
+            // player.transform.rotation = Quaternion.Euler(rot);
+            Vector3 dir = group.transform.position - player.transform.position;
+            dir.y = 0f;
+
+            Quaternion targetRot = Quaternion.LookRotation(dir);
+            player.transform.DORotateQuaternion(targetRot, 0.5f);
             yield return new WaitForSeconds(1);
             group.Move();
         }
@@ -129,7 +134,12 @@ namespace _0.Game.Scripts.Gameplay
         public override void GameOver(bool result)
         {
             base.GameOver(result);
-            UIController.instance.ShowGameOver(result);
+            AudioManager.instance?.PlaySfx(AudioManager.instance.boom);
+            player.particle.gameObject.SetActive(true);
+            DOVirtual.DelayedCall(1f, () =>
+            {
+                UIController.instance.ShowGameOver(result);
+            });
         }
     }
 }

@@ -6,7 +6,6 @@ namespace _0.Common.Scripts.BaseCore
     public class BaseUIGameplay : MonoBehaviour
     {
         public BaseGameOverPanel gameOver;
-        public BaseSettingsPanel settting;
         public virtual void Pause()
         {
             AudioManager.instance?.PlayButtonClick();

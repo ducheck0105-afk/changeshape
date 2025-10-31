@@ -16,8 +16,8 @@ MonoBehaviour:
   - shapeInWaves:
     - shapes: 01000000
   - shapeInWaves:
+    - shapes: 05000000
+    - shapes: 01000000
     - shapes: 00000000
-    - shapes: 04000000
-    - shapes: 03000000
   - shapeInWaves:
-    - shapes: 040000000000000004000000
+    - shapes: 000000000400000002000000
